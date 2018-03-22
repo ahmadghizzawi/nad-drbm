@@ -101,3 +101,5 @@ ENV/
 .mypy_cache/
 
 Icon
+
+kddcup.data_10_percent
