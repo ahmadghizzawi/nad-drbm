@@ -1,6 +1,6 @@
-# nad-drbm
+# Network Anomaly Detection with discriminative restricted Boltzmann machine (DRBM)
 
-Implementation of Network anomaly detection with the restricted Boltzmann machine as described in [1].
+Implementation of Network anomaly detection with the discriminative restricted Boltzmann machine (DRBM) as described in [1].
 
 This code is mostly based on the DRBM Theano implementation in https://bitbucket.org/freakanth/theano-drbm.git
 
