@@ -8,7 +8,8 @@ This code is mostly based on the DRBM Theano implementation in https://bitbucket
 Python 2.7
 
 ## How to run
-```python
+
+```console
 pip install -r requirements.txt
 python script.py
 ```
