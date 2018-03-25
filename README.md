@@ -9,8 +9,13 @@ Python 2.7
 
 ## How to run
 
-```console
+```bash
+# Install required python packages
 pip install -r requirements.txt
+# Download kddcup.data_10_percent dataset
+wget http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz
+# Download kddcup.data_10_percent dataset
+wget corrected.gz Test data with corrected labels.
 python script.py
 ```
 
