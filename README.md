@@ -9,7 +9,7 @@ Python 2.7
 
 ## How to run
 
-```console
+```bash
 # Install required python packages
 pip install -r requirements.txt
 # Download kddcup.data_10_percent dataset
