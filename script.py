@@ -5,9 +5,11 @@ import sys
 import time
 
 import numpy as np
-
+from sklearn.preprocessing import LabelEncoder
 import theano
 import theano.tensor as T
+
+from utils import load_data
 
 """Implementation of the discriminative RBM trained with stochastic gradient
 descent in Theano.
@@ -64,14 +66,14 @@ class DiscriminativeRBM(object):
         self.rng=rng
 
         # Class-hidden weights
-#        U_init = np.asarray(rng.rand(n_classes, n_hiddens) * 1e-3,
-#                            dtype=theano.config.floatX)
+        # U_init = np.asarray(rng.rand(n_classes, n_hiddens) * 1e-3,
+        # dtype=theano.config.floatX)
         U_init = np.asarray((rng.rand(n_classes, n_hiddens) * 2 - 1) / \
                 np.sqrt(max(n_classes, n_hiddens)), dtype=theano.config.floatX)
         self.U = theano.shared(U_init, name='U')
 
         # Input-hidden weights
-#        W_init = np.asarray(rng.rand(n_inputs, n_hiddens) * 1e-3,
+        # W_init = np.asarray(rng.rand(n_inputs, n_hiddens) * 1e-3,
 #                            dtype=theano.config.floatX)
         W_init = np.asarray((rng.rand(n_inputs, n_hiddens) * 2 - 1) / \
                 np.sqrt(max(n_inputs, n_hiddens)), dtype=theano.config.floatX)
@@ -201,81 +203,8 @@ class DiscriminativeRBM(object):
         else:
             raise NotImplementedError()
 
-
-def load_data(dataset):
-    ''' Loads the dataset
-
-    :type dataset: string
-    :param dataset: the path to the dataset (here MNIST)
-    '''
-
-    #############
-    # LOAD DATA #
-    #############
-
-    # Download the MNIST dataset if it is not present
-    data_dir, data_file = os.path.split(dataset)
-    if data_dir == "" and not os.path.isfile(dataset):
-        # Check if dataset is in the data directory.
-        new_path = os.path.join(os.path.split(__file__)[0], "..", "data", dataset)
-        if os.path.isfile(new_path) or data_file == 'mnist.pkl.gz':
-            dataset = new_path
-
-    if (not os.path.isfile(dataset)) and data_file == 'mnist.pkl.gz':
-        import urllib
-        origin = 'http://www.iro.umontreal.ca/~lisa/deep/data/mnist/mnist.pkl.gz'
-        print 'Downloading data from %s' % origin
-        urllib.urlretrieve(origin, dataset)
-
-    print '... loading data'
-
-    # Load the dataset
-    f = gzip.open(dataset, 'rb')
-    train_set, valid_set, test_set = cPickle.load(f)
-    f.close()
-    #train_set, valid_set, test_set format: tuple(input, target)
-    #input is an np.ndarray of 2 dimensions (a matrix)
-    #witch row's correspond to an example. target is a
-    #np.ndarray of 1 dimensions (vector)) that have the same length as
-    #the number of rows in the input. It should give the target
-    #target to the example with the same index in the input.
-
-    def shared_dataset(data_xy, borrow=True):
-        """ Function that loads the dataset into shared variables
-
-        The reason we store our dataset in shared variables is to allow
-        Theano to copy it into the GPU memory (when code is run on GPU).
-        Since copying data into the GPU is slow, copying a minibatch everytime
-        is needed (the default behaviour if the data is not in a shared
-        variable) would lead to a large decrease in performance.
-        """
-        data_x, data_y = data_xy
-        shared_x = theano.shared(np.asarray(data_x,
-                                               dtype=theano.config.floatX),
-                                 borrow=borrow)
-        shared_y = theano.shared(np.asarray(data_y,
-                                               dtype=theano.config.floatX),
-                                 borrow=borrow)
-        # When storing data on the GPU it has to be stored as floats
-        # therefore we will store the labels as ``floatX`` as well
-        # (``shared_y`` does exactly that). But during our computations
-        # we need them as ints (we use labels as index, and if they are
-        # floats it doesn't make sense) therefore instead of returning
-        # ``shared_y`` we will have to cast it to int. This little hack
-        # lets ous get around this issue
-        return shared_x, T.cast(shared_y, 'int32')
-
-    test_set_x, test_set_y = shared_dataset(test_set)
-    valid_set_x, valid_set_y = shared_dataset(valid_set)
-    train_set_x, train_set_y = shared_dataset(train_set)
-
-    rval = [(train_set_x, train_set_y), (valid_set_x, valid_set_y),
-            (test_set_x, test_set_y)]
-    return rval
-
-
 def sgd_optimization(n_hiddens=50, learning_rate=0.13, weight_decay=1e-4,
-                     n_epochs=1000, dataset='mnist.pkl.gz', batch_size=600):
+                     n_epochs=1000, dataset='kddcup.data_10_percent', test_dataset='corrected', batch_size=600):
     """Demonstrate stochastic gradient descent optimization of a Discriminative
     restricted Boltzmann machine.
 
@@ -302,7 +231,7 @@ def sgd_optimization(n_hiddens=50, learning_rate=0.13, weight_decay=1e-4,
     #############
     # LOAD DATA #
     #############
-    datasets = load_data(dataset)
+    datasets = load_data(dataset, test_dataset)
 
     train_set_x, train_set_y = datasets[0]
     valid_set_x, valid_set_y = datasets[1]
