@@ -1,5 +1,6 @@
 import os
 from collections import defaultdict
+import gzip
 
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
@@ -100,7 +101,7 @@ def load_data(dataset, test_dataset):
     print '... loading data'
 
     # Load the training dataset
-    train_set = pd.read_csv(dataset, header=None)
+    train_set = pd.read_csv(gzip.open(dataset, 'rb'), header=None)
 
     # Transform attacks into the four main attack classes (Probe, U2R, R2L, DoS)
     train_set = labels_to_classes(train_set)
@@ -118,7 +119,7 @@ def load_data(dataset, test_dataset):
     val_set_tuple = X_val, y_val
 
     # Load the test dataset
-    test_set = pd.read_csv(test_dataset, header=None)
+    test_set = pd.read_csv(gzip.open(test_dataset, 'rb'), header=None)
 
     # Transform attacks into the four main attack classes (Probe, U2R, R2L, DoS)
     test_set = labels_to_classes(test_set)
@@ -167,4 +168,4 @@ def load_data(dataset, test_dataset):
     return rval
 
 if __name__ == '__main__':
-    load_data('kddcup.data_10_percent', 'corrected')
+    load_data('kddcup.data_10_percent.gz', 'corrected.gz')

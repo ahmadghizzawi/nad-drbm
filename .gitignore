@@ -109,3 +109,5 @@ kddcup.data_10_percent
 kddcup.testdata.unlabeled_10_percent
 kddcup.data.txt
 corrected
+kddcup.data_10_percent.gz
+corrected.gz
