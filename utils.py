@@ -104,10 +104,6 @@ def load_data(dataset, test_dataset):
     # Transform attacks into the four main attack classes (Probe, U2R, R2L, DoS)
     train_set = labels_to_classes(train_set)
 
-    train_set_tuple = getTuple(train_set)
-
-    print np.unique(train_set_tuple[1])
-
     # Fit and encode the string features into labels
     train_set = fit_transform(train_set)
 
