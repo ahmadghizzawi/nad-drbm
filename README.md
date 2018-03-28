@@ -8,14 +8,13 @@ This code is mostly based on the DRBM Theano implementation in https://bitbucket
 Python 2.7
 
 ## How to run
-
 ```bash
 # Install required python packages
 pip install -r requirements.txt
-# Download kddcup.data_10_percent dataset
+# Download kddcup.data_10_percent (10% subset of the dataset)
 wget http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz
-# Download kddcup.data_10_percent dataset
-wget corrected.gz Test data with corrected labels.
+# Download corrected.gz (test data with corrected labels).
+wget http://kdd.ics.uci.edu/databases/kddcup99/corrected.gz
 python script.py
 ```
 
