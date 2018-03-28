@@ -34,13 +34,13 @@ def load_data(dataset, test_dataset):
         '''
         def to_list(string):
             return [x.strip() for x in string.split(',')]
-        probe = "portsweep, ipsweep, queso, satan, msscan, ntinfoscan, lsdomain, illegal-sniffer, mscan, saint"
+        probe = "portsweep, ipsweep, queso, satan, msscan, ntinfoscan, lsdomain, illegal-sniffer, mscan, saint, nmap"
         probe = to_list(probe)
         dos = "apache2, smurf, neptune, dosnuke, land, pod, back, teardrop, tcpreset, syslogd, crashiis, arppoison, mailbomb, selfping, processtable, udpstorm, warezclient, worm"
         dos = to_list(dos)
-        r2l = "dict, netcat, sendmail, imap, ncftp, xlock, xsnoop, sshtrojan, framespoof, ppmacro, guest, netbus, snmpget, ftpwrite, httptunnel, phf, named, snmpgetattack, snmpguess"
+        r2l = "dict, netcat, sendmail, imap, ncftp, xlock, xsnoop, sshtrojan, framespoof, ppmacro, guest, netbus, snmpget, ftpwrite, httptunnel, phf, named, snmpgetattack, snmpguess, guess_passwd, spy, ftp_write, multihop, warezmaster"
         r2l = to_list(r2l)
-        u2r = "sechole, xterm, eject, ps, nukepw, secret, perl, yaga, fdformat, ffbconfig, casesen, ntfsdos, ppmacro, loadmodule, sqlattack"
+        u2r = "sechole, xterm, eject, ps, nukepw, secret, perl, yaga, fdformat, ffbconfig, casesen, ntfsdos, ppmacro, loadmodule, sqlattack, buffer_overflow, rootkit"
         u2r = to_list(u2r)
 
         for c in probe:
@@ -105,6 +105,10 @@ def load_data(dataset, test_dataset):
 
     # Transform attacks into the four main attack classes (Probe, U2R, R2L, DoS)
     train_set = labels_to_classes(train_set)
+
+    train_set_tuple = getTuple(train_set)
+
+    print np.unique(train_set_tuple[1])
 
     # Fit and encode the string features into labels
     train_set = fit_transform(train_set)
