@@ -204,7 +204,7 @@ class DiscriminativeRBM(object):
             raise NotImplementedError()
 
 def sgd_optimization(n_hiddens=50, learning_rate=0.13, weight_decay=1e-4,
-                     n_epochs=1000, dataset='kddcup.data_10_percent.gz', test_dataset='corrected.gz', batch_size=600):
+                     n_epochs=1000, dataset='kddcup.data_10_percent.gz', test_dataset='corrected.gz', batch_size=6000):
     """Demonstrate stochastic gradient descent optimization of a Discriminative
     restricted Boltzmann machine.
 
@@ -231,6 +231,8 @@ def sgd_optimization(n_hiddens=50, learning_rate=0.13, weight_decay=1e-4,
     #############
     # LOAD DATA #
     #############
+    print '... loading data'
+
     datasets = load_data(dataset, test_dataset)
 
     train_set_x, train_set_y = datasets[0]

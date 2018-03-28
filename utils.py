@@ -98,8 +98,6 @@ def load_data(dataset, test_dataset):
     # LOAD DATA #
     #############
 
-    print '... loading data'
-
     # Load the training dataset
     train_set = pd.read_csv(gzip.open(dataset, 'rb'), header=None)
 
