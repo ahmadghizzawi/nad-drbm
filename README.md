@@ -15,7 +15,7 @@ pip install -r requirements.txt
 wget http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz
 # Download corrected.gz (test data with corrected labels).
 wget http://kdd.ics.uci.edu/databases/kddcup99/corrected.gz
-python script.py
+python main.py
 ```
 
-[1] https://www.sciencedirect.com/science/article/pii/S0925231213005547 
+[1] https://www.sciencedirect.com/science/article/pii/S0925231213005547
